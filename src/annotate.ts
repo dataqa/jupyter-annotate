@@ -13,38 +13,38 @@ export function annotate(
 ): HTMLElement {
   // TODO this is state
   let spans = initialSpans || [];
-  console.log('SPANS', spans);
-  let selectedLabel = labels.length ? labels[0] : '';
+  console.log("SPANS", spans);
+  let selectedLabel = labels.length ? labels[0] : "";
 
-  const wrapperEl = document.createElement('div');
-  const labelContainerEl = document.createElement('div');
-  labelContainerEl.classList.add('flex');
-  labelContainerEl.classList.add('labelContainer');
-  const contentEl = document.createElement('div');
-  contentEl.classList.add('content');
+  const wrapperEl = document.createElement("div");
+  const labelContainerEl = document.createElement("div");
+  labelContainerEl.classList.add("flex");
+  labelContainerEl.classList.add("labelContainer");
+  const contentEl = document.createElement("div");
+  contentEl.classList.add("content");
   contentEl.innerHTML = initialText;
 
-  wrapperEl.innerHTML = '';
+  wrapperEl.innerHTML = "";
   wrapperEl.appendChild(labelContainerEl);
   wrapperEl.appendChild(contentEl);
 
   function getSpanEl(text: string, span: Span) {
-    const spanEl = document.createElement('span');
-    spanEl.classList.add('span');
+    const spanEl = document.createElement("span");
+    spanEl.classList.add("span");
     const content = text.slice(span.start, span.end);
     spanEl.title = content;
 
-    const spanLabelEl = document.createElement('span');
-    spanLabelEl.classList.add('spanLabel');
+    const spanLabelEl = document.createElement("span");
+    spanLabelEl.classList.add("spanLabel");
     spanLabelEl.innerHTML = span.label;
 
-    const spanContentEl = document.createElement('span');
+    const spanContentEl = document.createElement("span");
     spanContentEl.innerHTML = content;
 
     spanEl.appendChild(spanContentEl);
     spanEl.appendChild(spanLabelEl);
 
-    spanEl.addEventListener('click', () => {
+    spanEl.addEventListener("click", () => {
       spans = spans.filter((s: Span) => s.start !== span.start);
       updateSpans();
     });
@@ -53,16 +53,16 @@ export function annotate(
   }
 
   function renderLabels() {
-    labelContainerEl.innerHTML = '';
+    labelContainerEl.innerHTML = "";
 
     labels.forEach((label) => {
-      const labelEl = document.createElement('div');
-      labelEl.classList.add('label');
+      const labelEl = document.createElement("div");
+      labelEl.classList.add("label");
       if (label === selectedLabel) {
-        labelEl.classList.add('selected');
+        labelEl.classList.add("selected");
       }
       labelEl.innerHTML = label;
-      labelEl.addEventListener('click', () => {
+      labelEl.addEventListener("click", () => {
         if (selectedLabel !== label) {
           selectedLabel = label;
           renderLabels();
@@ -72,7 +72,7 @@ export function annotate(
     });
   }
   function renderSpans() {
-    contentEl.innerHTML = '';
+    contentEl.innerHTML = "";
     contentEl.appendChild(getHighlightedText(initialText));
   }
 
@@ -82,13 +82,13 @@ export function annotate(
   }
 
   function getHighlightedText(text: string) {
-    const textEl = document.createElement('div');
+    const textEl = document.createElement("div");
     let prevOffset = 0;
 
     spans
       .sort((a, b) => (a.start > b.start ? 1 : -1))
       .forEach((span) => {
-        const prevEl = document.createElement('span');
+        const prevEl = document.createElement("span");
         prevEl.dataset.offset = `${prevOffset}`;
         prevEl.innerHTML = text.slice(prevOffset, span.start);
         textEl.appendChild(prevEl);
@@ -97,7 +97,7 @@ export function annotate(
         prevOffset = span.end;
       });
 
-    const prevEl = document.createElement('span');
+    const prevEl = document.createElement("span");
     prevEl.dataset.offset = `${prevOffset}`;
     prevEl.innerHTML = text.slice(prevOffset);
     textEl.appendChild(prevEl);
@@ -107,9 +107,9 @@ export function annotate(
 
   function onSelect(event: any): void {
     const dataset = event.target?.dataset || {};
-    const offset = parseInt(dataset.offset || '0', 10);
+    const offset = parseInt(dataset.offset || "0", 10);
     const selected = window.getSelection();
-    const selectedText = selected?.toString() || '';
+    const selectedText = selected?.toString() || "";
     if (!selectedText.trim() || !selected) {
       return;
     }
@@ -124,7 +124,7 @@ export function annotate(
     updateSpans();
   }
 
-  contentEl.addEventListener('mouseup', onSelect);
+  contentEl.addEventListener("mouseup", onSelect);
   renderLabels();
   renderSpans();
 
