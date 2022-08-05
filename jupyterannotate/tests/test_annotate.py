@@ -6,9 +6,9 @@
 
 import pytest
 
-from ..example import ExampleWidget
+from jupyterannotate.annotate import AnnotateWidget
 
 
-def test_example_creation_blank():
-    w = ExampleWidget()
-    assert w.value == 'Hello World'
+def test_annotate_widget():
+    w = AnnotateWidget()
+    assert w.spans == []

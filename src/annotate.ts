@@ -5,6 +5,92 @@ export interface Span {
   label: string;
 }
 
+interface Props {
+  [key: string]: any;
+}
+interface Component {
+  render: (props?: Props) => HTMLElement;
+}
+
+const Labels = (
+  labels: string[],
+  onLabelChange: (label: string) => void
+): Component => {
+  const el = document.createElement("div");
+  el.classList.add("labelContainer");
+
+  function render(props?: Props) {
+    el.innerHTML = "";
+
+    labels.forEach((label) => {
+      const labelEl = document.createElement("div");
+      labelEl.classList.add("label");
+      if (label === props?.selectedLabel) {
+        labelEl.classList.add("selected");
+      }
+      labelEl.innerHTML = label;
+      labelEl.addEventListener("click", () => onLabelChange(label));
+      el.appendChild(labelEl);
+    });
+
+    return el;
+  }
+
+  return {
+    render,
+  };
+};
+
+const Nav = (onNext: () => void, onPrev: () => void) => {
+  const el = document.createElement("div");
+  el.classList.add("nav");
+
+  function render() {
+    el.innerHTML = "";
+    const prevEl = document.createElement("div");
+    prevEl.classList.add("navLink", "prev");
+    prevEl.innerHTML = "⏵";
+    prevEl.addEventListener("click", onPrev);
+
+    const nextEl = document.createElement("div");
+    nextEl.classList.add("navLink", "next");
+    nextEl.innerHTML = "⮕";
+    nextEl.addEventListener("click", onNext);
+
+    el.appendChild(prevEl);
+    el.appendChild(nextEl);
+
+    return el;
+  }
+
+  return { render };
+};
+
+const TopBar = (
+  labels: string[],
+  onLabelChange: (label: string) => void,
+  onNext: () => void,
+  onPrev: () => void
+): Component => {
+  const el = document.createElement("div");
+  el.classList.add("topBar");
+  const labelComponent = Labels(labels, onLabelChange);
+  const navComponent = Nav(onNext, onPrev);
+
+  function render(props?: Props) {
+    el.innerHTML = "";
+    el.appendChild(
+      labelComponent.render({ selectedLabel: props?.selectedLabel })
+    );
+    el.appendChild(navComponent.render());
+    return el;
+  }
+
+  return {
+    render,
+  };
+};
+
 export function annotate(
   initialText: string,
   labels: string[],
@@ -13,19 +99,31 @@ export function annotate(
 ): HTMLElement {
   // TODO this is state
   let spans = initialSpans || [];
-  console.log("SPANS", spans);
   let selectedLabel = labels.length ? labels[0] : "";
 
   const wrapperEl = document.createElement("div");
-  const labelContainerEl = document.createElement("div");
-  labelContainerEl.classList.add("flex");
-  labelContainerEl.classList.add("labelContainer");
   const contentEl = document.createElement("div");
   contentEl.classList.add("content");
   contentEl.innerHTML = initialText;
 
+  const onChangeLabel = (label: string) => {
+    if (selectedLabel !== label) {
+      selectedLabel = label;
+      navComponent.render({ selectedLabel });
+    }
+  };
+
+  const onNext = () => {
+    console.log("Next");
+  };
+
+  const onPrev = () => {
+    console.log("Prev");
+  };
+
   wrapperEl.innerHTML = "";
-  wrapperEl.appendChild(labelContainerEl);
+  const navComponent = TopBar(labels, onChangeLabel, onNext, onPrev);
+  wrapperEl.appendChild(navComponent.render({ selectedLabel }));
   wrapperEl.appendChild(contentEl);
 
   function getSpanEl(text: string, span: Span) {
@@ -52,25 +150,6 @@ export function annotate(
     return spanEl;
   }
 
-  function renderLabels() {
-    labelContainerEl.innerHTML = "";
-
-    labels.forEach((label) => {
-      const labelEl = document.createElement("div");
-      labelEl.classList.add("label");
-      if (label === selectedLabel) {
-        labelEl.classList.add("selected");
-      }
-      labelEl.innerHTML = label;
-      labelEl.addEventListener("click", () => {
-        if (selectedLabel !== label) {
-          selectedLabel = label;
-          renderLabels();
-        }
-      });
-      labelContainerEl.appendChild(labelEl);
-    });
-  }
   function renderSpans() {
     contentEl.innerHTML = "";
     contentEl.appendChild(getHighlightedText(initialText));
@@ -113,10 +192,20 @@ export function annotate(
     if (!selectedText.trim() || !selected) {
       return;
     }
+
+    const start =
+      selected.anchorOffset > selected.focusOffset
+        ? selected.focusOffset
+        : selected.anchorOffset;
+    const end =
+      selected.anchorOffset < selected.focusOffset
+        ? selected.focusOffset
+        : selected.anchorOffset;
+
     spans = spans.concat([
       {
-        start: selected.anchorOffset + offset,
-        end: selected.focusOffset + offset,
+        start: start + offset,
+        end: end + offset,
         text: selectedText,
         label: selectedLabel,
       },
@@ -125,7 +214,6 @@ export function annotate(
   }
 
   contentEl.addEventListener("mouseup", onSelect);
-  renderLabels();
   renderSpans();
 
   return wrapperEl;

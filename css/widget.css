@@ -1,8 +1,10 @@
 .content {
   padding: 20px;
-  line-height: 2;
-  font-size: 20px;
+  line-height: 1.7;
+  font-size: 18px;
   font-family: "Lato", "Trebuchet MS", Roboto, Helvetica, Arial, sans-serif;
+
+  max-width: 720px;
 }
 .label {
   margin: 5px 10px 5px 0;
@@ -12,6 +14,7 @@
   padding: 1px 10px;
   position: relative;
   border-radius: 4px;
+  font-size: 16px;
 }
 .selected {
   background: white;
@@ -19,18 +22,31 @@
 }
 .labelContainer {
   display: flex;
+  flex-grow: 1;
   color: #fff;
-  width: 100%;
-  padding: 12px;
-  font-size: 20px;
-  background: rgb(31, 41, 55);
-  text-align: center;
-  box-sizing: border-box;
   font-weight: bold;
   font-family: "Roboto Condensed", "Arial Narrow", sans-serif;
   text-transform: uppercase;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.topBar {
+  display: flex;
+  color: #fff;
+  width: 100%;
+  padding: 12px;
+  background: rgb(31, 41, 55);
+  box-sizing: border-box;
+  font-size: 20px;
+}
+
+.nav {
+  display: flex;
+}
+
+.navLink {
+  cursor: pointer;
 }
 
 .span {

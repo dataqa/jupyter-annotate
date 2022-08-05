@@ -7,34 +7,45 @@ import {
   ISerializers,
 } from "@jupyter-widgets/base";
 
+import { h, render } from "preact";
+
 import { MODULE_NAME, MODULE_VERSION } from "./version";
-import { annotate, Span } from "./annotate";
+import { Span } from "./annotate";
+import Annotate from "./components/Annotate";
 // Import the CSS
 import "../css/widget.css";
 
-export class ExampleModel extends DOMWidgetModel {
+export class AnnotateModel extends DOMWidgetModel {
   static serializers: ISerializers = {
     ...DOMWidgetModel.serializers,
     // Add any extra serializers here
   };
 
-  static model_name = "ExampleModel";
+  static model_name = "AnnotateModel";
   static model_module = MODULE_NAME;
   static model_module_version = MODULE_VERSION;
-  static view_name = "ExampleView"; // Set to null if no view
+  static view_name = "AnnotateView"; // Set to null if no view
   static view_module = MODULE_NAME; // Set to null if no view
   static view_module_version = MODULE_VERSION;
 }
 
-export class ExampleView extends DOMWidgetView {
+export class AnnotateView extends DOMWidgetView {
   render(): void {
     const text = this.model.get("text");
     const labels = this.model.get("labels");
-    const initialSpans = this.model.get("spans");
+    // const initialSpans = this.model.get("spans");
 
-    this.el.appendChild(
-      annotate(text, labels, initialSpans, (spans) => this.handleChange(spans))
+    const app = h(
+      "div",
+      { className: "app" },
+      h(Annotate, {
+        text,
+        labels,
+        onUpdateSpans: (spans: Span[]) => this.handleChange(spans),
+      })
     );
+
+    render(app, this.el);
   }
 
   handleChange(spans: Span[]): void {
