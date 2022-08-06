@@ -19,7 +19,9 @@ export default function Annotate({
   const totalDocs = docs.length;
   const [selectedLabel, setSelectedLabel] = useState<string>("");
   const [docIndex, setDocIndex] = useState<number>(0);
-  const [docSpans, setDocSpans] = useState<Span[][]>([]);
+  const [docSpans, setDocSpans] = useState<Span[][]>(
+    [...Array(totalDocs).keys()].map(() => [])
+  );
 
   const text = useMemo<string>(() => {
     return docs[docIndex];

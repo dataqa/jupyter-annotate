@@ -2,14 +2,26 @@ import { h, VNode } from "preact";
 import { useEffect, useRef } from "preact/hooks";
 import { Span } from "../annotate";
 
-const SpanLabel = ({ text, label }: { text: string; label: string }): VNode => {
-  return h("span", { className: "span" }, [
+const SpanLabel = ({
+  text,
+  label,
+  onClick,
+}: {
+  text: string;
+  label: string;
+  onClick: () => void;
+}): VNode => {
+  return h("span", { className: "span", onClick }, [
     text,
     h("span", { className: "spanLabel" }, label),
   ]);
 };
 
-const getHighlightedText = (text: string, spans: Span[]): VNode[] => {
+const getHighlightedText = (
+  text: string,
+  spans: Span[],
+  onRemoveSpan: (span: Span) => void
+): VNode[] => {
   const chunks: VNode[] = [];
   let prevOffset = 0;
 
@@ -23,7 +35,13 @@ const getHighlightedText = (text: string, spans: Span[]): VNode[] => {
           text.slice(prevOffset, span.start)
         )
       );
-      chunks.push(SpanLabel({ text: span.text, label: span.label }));
+      chunks.push(
+        SpanLabel({
+          text: span.text,
+          label: span.label,
+          onClick: () => onRemoveSpan(span),
+        })
+      );
       prevOffset = span.end;
     });
   chunks.push(h("span", { "data-offset": prevOffset }, text.slice(prevOffset)));
@@ -76,6 +94,10 @@ const Highlightable = ({
     );
   }
 
+  const onRemoveSpan = (span: Span) => {
+    onUpdate(spans.filter((s) => s.start !== span.start));
+  };
+
   useEffect(() => {
     const el: any = ref.current;
     if (el) {
@@ -86,7 +108,7 @@ const Highlightable = ({
   return h(
     "div",
     { ref, className: "content" },
-    getHighlightedText(text, spans)
+    getHighlightedText(text, spans, onRemoveSpan)
   );
 };
 
