@@ -23,6 +23,6 @@ class AnnotateWidget(DOMWidget, ValueWidget):
     _view_module = Unicode(module_name).tag(sync=True)
     _view_module_version = Unicode(module_version).tag(sync=True)
 
-    text = Unicode().tag(sync=True)
+    docs = List(trait=Unicode()).tag(sync=True)
     spans = List([]).tag(sync=True)
     labels = List().tag(sync=True)

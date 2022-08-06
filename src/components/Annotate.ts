@@ -1,37 +1,46 @@
 import { h, VNode } from "preact";
-import { useState } from "preact/hooks";
+import { useMemo, useState } from "preact/hooks";
 import { Span } from "../annotate";
 
 import TopBar from "./TopBar";
 import Highlightable from "./Highlightable";
 
 interface Props {
-  text: string;
+  docs: string[];
   labels: string[];
-  onUpdateSpans: (span: Span[]) => void;
+  onUpdateSpans: (span: Span[][]) => void;
 }
 
 export default function Annotate({
-  text,
+  docs,
   labels,
   onUpdateSpans,
 }: Props): VNode {
-  const totalDocs = 15;
-  const docIndex = 5;
+  const totalDocs = docs.length;
   const [selectedLabel, setSelectedLabel] = useState<string>("");
-  const [spans, setSpans] = useState<Span[]>([]);
+  const [docIndex, setDocIndex] = useState<number>(0);
+  const [docSpans, setDocSpans] = useState<Span[][]>([]);
+
+  const text = useMemo<string>(() => {
+    return docs[docIndex];
+  }, [docIndex, docs]);
+
   const onChangeLabel = (label: string) => {
     setSelectedLabel(label);
   };
 
-  const onUpdate = (updatedSpans: Span[]) => {
-    setSpans(updatedSpans);
+  const onUpdate = (changedSpans: Span[]) => {
+    const updatedSpans = [...docSpans];
+    updatedSpans[docIndex] = changedSpans;
+    setDocSpans(updatedSpans);
     onUpdateSpans(updatedSpans);
   };
 
   const onChangeNav = (docIndex: number) => {
-    console.log(docIndex);
+    setDocIndex(docIndex);
   };
+
+  const spans = docSpans[docIndex] || [];
 
   return h("div", null, [
     h(TopBar, {
