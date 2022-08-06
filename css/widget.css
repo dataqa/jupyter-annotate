@@ -33,6 +33,7 @@
 
 .topBar {
   display: flex;
+  align-items: center;
   color: #fff;
   width: 100%;
   padding: 12px;
@@ -47,6 +48,7 @@
 
 .navLink {
   cursor: pointer;
+  width: 16px;
 }
 
 .span {
