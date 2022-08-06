@@ -8,22 +8,21 @@
 }
 .label {
   margin: 5px 10px 5px 0;
-  border: 1px solid white;
   cursor: pointer;
   display: block;
   padding: 1px 10px;
   position: relative;
   border-radius: 4px;
   font-size: 16px;
+
+  background-color: #D1D5DB;
 }
 .selected {
   background: white;
-  color: rgb(31, 41, 55);
 }
 .labelContainer {
   display: flex;
   flex-grow: 1;
-  color: #fff;
   font-weight: bold;
   font-family: "Roboto Condensed", "Arial Narrow", sans-serif;
   text-transform: uppercase;
@@ -34,10 +33,10 @@
 .topBar {
   display: flex;
   align-items: center;
-  color: #fff;
+  color: #1F2937;
   width: 100%;
   padding: 12px;
-  background: rgb(31, 41, 55);
+  background: #F3F4F6;
   box-sizing: border-box;
   font-size: 20px;
 }

@@ -33,7 +33,7 @@ export class AnnotateView extends DOMWidgetView {
   render(): void {
     const docs = this.model.get("docs") || [];
     const labels = this.model.get("labels");
-    // const initialSpans = this.model.get("spans");
+    const initialSpans = this.model.get("spans") || [];
 
     const app = h(
       "div",
@@ -41,6 +41,7 @@ export class AnnotateView extends DOMWidgetView {
       h(Annotate, {
         docs,
         labels,
+        initialSpans,
         onUpdateSpans: (spans: Span[][]) => this.handleChange(spans),
       })
     );

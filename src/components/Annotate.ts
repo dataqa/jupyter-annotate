@@ -8,19 +8,23 @@ import Highlightable from "./Highlightable";
 interface Props {
   docs: string[];
   labels: string[];
+  initialSpans: Span[][];
   onUpdateSpans: (span: Span[][]) => void;
 }
 
 export default function Annotate({
   docs,
   labels,
+  initialSpans,
   onUpdateSpans,
 }: Props): VNode {
   const totalDocs = docs.length;
   const [selectedLabel, setSelectedLabel] = useState<string>("");
   const [docIndex, setDocIndex] = useState<number>(0);
   const [docSpans, setDocSpans] = useState<Span[][]>(
-    [...Array(totalDocs).keys()].map(() => [])
+    initialSpans.length
+      ? initialSpans
+      : [...Array(totalDocs).keys()].map(() => [])
   );
 
   const text = useMemo<string>(() => {
