@@ -31,15 +31,20 @@ export const HIGHLIGHT_COLORS: { [key: string]: any } = {
     300: "#FCA5A5",
     800: "#991B1B",
   },
-  orange: {
-    50: "#FFF7ED",
-    300: "#FDBA74",
-    800: "#9A3412",
+  cyan: {
+    50: "#ECFEFF",
+    300: "#67E8F9",
+    800: "#155E75",
   },
   amber: {
     50: "#FFFBEB",
     300: "#FCD34D",
     800: "#92400E",
+  },
+  violet: {
+    50: "#F5F3FF",
+    300: "#C4B5FD",
+    800: "#5B21B6",
   },
   yellow: {
     50: "#FEFCE8",
@@ -51,11 +56,6 @@ export const HIGHLIGHT_COLORS: { [key: string]: any } = {
     300: "#BEF264",
     800: "#3F6212",
   },
-  green: {
-    50: "#F0FDF4",
-    300: "#86EFAC",
-    800: "#166534",
-  },
   emerald: {
     50: "#ECFDF5",
     300: "#6EE7B7",
@@ -66,10 +66,10 @@ export const HIGHLIGHT_COLORS: { [key: string]: any } = {
     300: "#5EEAD4",
     800: "#115E59",
   },
-  cyan: {
-    50: "#ECFEFF",
-    300: "#67E8F9",
-    800: "#155E75",
+  orange: {
+    50: "#FFF7ED",
+    300: "#FDBA74",
+    800: "#9A3412",
   },
   sky: {
     50: "#F0F9FF",
@@ -85,11 +85,6 @@ export const HIGHLIGHT_COLORS: { [key: string]: any } = {
     50: "#EEF2FF",
     300: "#A5B4FC",
     800: "#3730A3",
-  },
-  violet: {
-    50: "#F5F3FF",
-    300: "#C4B5FD",
-    800: "#5B21B6",
   },
   purple: {
     50: "#FAF5FF",

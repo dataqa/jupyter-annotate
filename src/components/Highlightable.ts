@@ -1,6 +1,7 @@
 import { h, VNode } from "preact";
 import { useEffect, useRef } from "preact/hooks";
-import { Span } from "../annotate";
+import { ColorLabel, Span } from "../annotate";
+import { HIGHLIGHT_COLORS } from "./colors";
 
 const SpanLabel = ({
   text,
@@ -8,12 +9,18 @@ const SpanLabel = ({
   onClick,
 }: {
   text: string;
-  label: string;
+  label: ColorLabel;
   onClick: () => void;
 }): VNode => {
-  return h("span", { className: "span", onClick }, [
+  const color = HIGHLIGHT_COLORS[label.color] || HIGHLIGHT_COLORS.red;
+  const style = {
+    backgroundColor: color[50],
+    color: color[800],
+    borderColor: color[800],
+  };
+
+  return h("span", { style, className: "span", onClick, title: label.text }, [
     text,
-    h("span", { className: "spanLabel" }, label),
   ]);
 };
 
@@ -51,7 +58,7 @@ const getHighlightedText = (
 
 interface Props {
   text: string;
-  selectedLabel: string;
+  selectedLabel: ColorLabel;
   spans: Span[];
   onUpdate: (span: Span[]) => void;
 }

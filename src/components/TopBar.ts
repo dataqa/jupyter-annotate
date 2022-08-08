@@ -1,13 +1,14 @@
 import { h, VNode } from "preact";
+import { ColorLabel } from "../annotate";
 import Labels from "./Labels";
 import Nav from "./Nav";
 
 interface Props {
-  labels: string[];
-  selectedLabel: string;
+  labels: ColorLabel[];
+  selectedLabel: ColorLabel;
   docIndex: number;
   totalDocs: number;
-  onChangeLabel: (label: string) => void;
+  onChangeLabel: (label: ColorLabel) => void;
   onChangeNav: (docIndex: number) => void;
 }
 
