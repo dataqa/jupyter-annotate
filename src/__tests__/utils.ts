@@ -1,8 +1,8 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import * as widgets from '@jupyter-widgets/base';
-import * as services from '@jupyterlab/services';
+import * as widgets from "@jupyter-widgets/base";
+import * as services from "@jupyterlab/services";
 
 let numComms = 0;
 
@@ -28,18 +28,18 @@ export class MockComm implements widgets.IClassicComm {
     if (this._on_close) {
       this._on_close();
     }
-    return 'dummy';
+    return "dummy";
   }
   send(): string {
-    return 'dummy';
+    return "dummy";
   }
 
   open(): string {
-    return 'dummy';
+    return "dummy";
   }
 
   comm_id: string;
-  target_name = 'dummy';
+  target_name = "dummy";
   _on_msg: ((x?: any) => void) | null = null;
   _on_close: ((x?: any) => void) | null = null;
 }
@@ -47,7 +47,7 @@ export class MockComm implements widgets.IClassicComm {
 export class DummyManager extends widgets.ManagerBase<HTMLElement> {
   constructor() {
     super();
-    this.el = window.document.createElement('div');
+    this.el = window.document.createElement("div");
   }
 
   display_view(
@@ -59,7 +59,7 @@ export class DummyManager extends widgets.ManagerBase<HTMLElement> {
     // TODO: return an html element
     return Promise.resolve(view).then((view) => {
       this.el.appendChild(view.el);
-      view.on('remove', () => console.log('view removed', view));
+      view.on("remove", () => console.log("view removed", view));
       return view.el;
     });
   }
@@ -69,13 +69,13 @@ export class DummyManager extends widgets.ManagerBase<HTMLElement> {
     moduleName: string,
     moduleVersion: string
   ): Promise<any> {
-    if (moduleName === '@jupyter-widgets/base') {
+    if (moduleName === "@jupyter-widgets/base") {
       if ((widgets as any)[className]) {
         return Promise.resolve((widgets as any)[className]);
       } else {
         return Promise.reject(`Cannot find class ${className}`);
       }
-    } else if (moduleName === 'jupyter-datawidgets') {
+    } else if (moduleName === "jupyter-datawidgets") {
       if (this.testClasses[className]) {
         return Promise.resolve(this.testClasses[className]);
       } else {
@@ -86,11 +86,11 @@ export class DummyManager extends widgets.ManagerBase<HTMLElement> {
     }
   }
 
-  _get_comm_info() {
+  _get_comm_info(): Promise<any> {
     return Promise.resolve({});
   }
 
-  _create_comm() {
+  _create_comm(): Promise<MockComm> {
     return Promise.resolve(new MockComm());
   }
 

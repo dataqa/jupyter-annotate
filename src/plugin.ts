@@ -1,17 +1,17 @@
 // Copyright (c) Stuart Quin
 // Distributed under the terms of the Modified BSD License.
 
-import { Application, IPlugin } from '@phosphor/application';
+import { Application, IPlugin } from "@phosphor/application";
 
-import { Widget } from '@phosphor/widgets';
+import { Widget } from "@phosphor/widgets";
 
-import { IJupyterWidgetRegistry } from '@jupyter-widgets/base';
+import { IJupyterWidgetRegistry } from "@jupyter-widgets/base";
 
-import * as widgetExports from './widget';
+import * as widgetExports from "./widget";
 
-import { MODULE_NAME, MODULE_VERSION } from './version';
+import { MODULE_NAME, MODULE_VERSION } from "./version";
 
-const EXTENSION_ID = 'jupyterannotate:plugin';
+const EXTENSION_ID = "jupyterannotate:plugin";
 
 /**
  * The example plugin.
