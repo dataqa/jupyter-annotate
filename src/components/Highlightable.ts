@@ -80,21 +80,24 @@ const Highlightable = ({
       return;
     }
 
-    const start =
+    const startOffset =
       selected.anchorOffset > selected.focusOffset
         ? selected.focusOffset
         : selected.anchorOffset;
-    const end =
+    const endOffset =
       selected.anchorOffset < selected.focusOffset
         ? selected.focusOffset
         : selected.anchorOffset;
 
+    const start = startOffset + offset;
+    const end = endOffset + offset;
+
     onUpdate(
       spans.concat([
         {
-          start: start + offset,
-          end: end + offset,
-          text: selectedText,
+          start,
+          end,
+          text: text.slice(start, end),
           label: selectedLabel,
         },
       ])

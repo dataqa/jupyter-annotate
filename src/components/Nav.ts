@@ -22,9 +22,17 @@ const Nav = ({ docIndex, totalDocs, onChangeNav }: Props): VNode => {
   };
 
   return h("div", { className: "nav" }, [
-    h("div", { className: "navLink", onClick: onPrev }, h(ChevronLeft, null)),
+    h(
+      "div",
+      { className: "navLink", onClick: onPrev, title: "Previous Document" },
+      h(ChevronLeft, null)
+    ),
     h("div", null, `${docIndex + 1} / ${totalDocs}`),
-    h("div", { className: "navLink", onClick: onNext }, h(ChevronRight, null)),
+    h(
+      "div",
+      { className: "navLink", onClick: onNext, title: "Next Document" },
+      h(ChevronRight, null)
+    ),
   ]);
 };
 
