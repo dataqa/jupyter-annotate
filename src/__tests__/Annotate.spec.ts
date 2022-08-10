@@ -3,6 +3,7 @@ import { faker } from "@faker-js/faker";
 
 import { render, fireEvent, waitFor } from "@testing-library/preact";
 import Annotate from "../components/Annotate";
+import { Span } from "../annotate";
 
 const RANGE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const LABELS = RANGE.map(() => faker.random.word());
@@ -27,6 +28,7 @@ describe("Annotate", () => {
         labels: LABELS,
         initialSpans: [],
         onUpdateSpans: jest.fn(),
+        registerSpanChangeCallback: jest.fn(),
         docs: DOCUMENTS,
       })
     );
@@ -47,6 +49,7 @@ describe("Annotate", () => {
         labels: LABELS,
         initialSpans: [],
         onUpdateSpans,
+        registerSpanChangeCallback: jest.fn(),
         docs,
       })
     );
@@ -67,6 +70,43 @@ describe("Annotate", () => {
         ],
       ])
     );
+
+    const span = await findByTitle(LABELS[0]);
+    expect(span.textContent).toEqual(targetText);
+  });
+
+  test("should render spans when Python model changes", async () => {
+    let spanChangeCallback = (spans: Span[][]) => {
+      console.log(spans);
+    };
+    const onUpdateSpans = jest.fn();
+    const docs = [faker.lorem.sentence(20)];
+    const { findByTitle } = render(
+      h(Annotate, {
+        labels: LABELS,
+        initialSpans: [],
+        onUpdateSpans,
+        registerSpanChangeCallback: (callback) => {
+          spanChangeCallback = callback;
+        },
+        docs,
+      })
+    );
+
+    const targetText = docs[0].slice(8, 12);
+
+    await waitFor(() => expect(spanChangeCallback).not.toBeNull());
+
+    spanChangeCallback([
+      [
+        {
+          start: 8,
+          end: 12,
+          text: targetText,
+          label: { color: "red", text: LABELS[0] },
+        },
+      ],
+    ]);
 
     const span = await findByTitle(LABELS[0]);
     expect(span.textContent).toEqual(targetText);

@@ -1,5 +1,5 @@
 import { h, VNode } from "preact";
-import { useMemo, useState } from "preact/hooks";
+import { useEffect, useMemo, useState } from "preact/hooks";
 import { ColorLabel, Span } from "../annotate";
 
 import TopBar from "./TopBar";
@@ -11,12 +11,14 @@ interface Props {
   labels: string[];
   initialSpans: Span[][];
   onUpdateSpans: (span: Span[][]) => void;
+  registerSpanChangeCallback: (callback: (span: Span[][]) => void) => void;
 }
 
 export default function Annotate({
   docs,
   labels,
   initialSpans,
+  registerSpanChangeCallback,
   onUpdateSpans,
 }: Props): VNode {
   const totalDocs = docs.length;
@@ -31,6 +33,12 @@ export default function Annotate({
   const text = useMemo<string>(() => {
     return docs[docIndex];
   }, [docIndex, docs]);
+
+  useEffect(() => {
+    registerSpanChangeCallback((spans: Span[][]) => {
+      setDocSpans(spans);
+    });
+  }, []);
 
   const onChangeLabel = (label: ColorLabel) => {
     setSelectedLabel(label);

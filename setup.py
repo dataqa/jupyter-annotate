@@ -64,7 +64,7 @@ cmdclass["jsdeps"] = skip_if_exists(jstargets, npm_install)
 
 setup_args = dict(
     name=name,
-    description="A Custom Jupyter Widget Library",
+    description="A Jupyter Text Annotation Widget",
     version=version,
     scripts=glob(pjoin("scripts", "*")),
     cmdclass=cmdclass,

@@ -1,7 +1,7 @@
 {
   "name": "jupyterannotate",
-  "version": "0.1.1",
-  "description": "A Custom Jupyter Widget Library",
+  "version": "0.1.2",
+  "description": "A Jupyter Text Annotation Widget",
   "keywords": [
     "jupyter",
     "jupyterlab",

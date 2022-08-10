@@ -5,6 +5,7 @@ import {
   DOMWidgetModel,
   DOMWidgetView,
   ISerializers,
+  WidgetModel,
 } from "@jupyter-widgets/base";
 
 import { h, render } from "preact";
@@ -35,11 +36,26 @@ export class AnnotateView extends DOMWidgetView {
     const labels = this.model.get("labels");
     const initialSpans = this.model.get("spans") || [];
 
+    const registerSpanChangeCallback = (
+      callback: (spans: Span[][]) => void
+    ) => {
+      this.model.on(
+        "change:spans",
+        (model: WidgetModel) => {
+          if (callback) {
+            callback(model.changed.spans);
+          }
+        },
+        this
+      );
+    };
+
     const app = h(
       "div",
       { className: "app" },
       h(Annotate, {
         docs,
+        registerSpanChangeCallback,
         labels,
         initialSpans,
         onUpdateSpans: (spans: Span[][]) => this.handleChange(spans),
