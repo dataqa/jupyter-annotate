@@ -1,9 +1,6 @@
-
 # jupyterannotate
 
-[![Build Status](https://travis-ci.org/DataQA/jupyterannotate.svg?branch=master)](https://travis-ci.org/DataQA/jupyterannotate)
-[![codecov](https://codecov.io/gh/DataQA/jupyterannotate/branch/master/graph/badge.svg)](https://codecov.io/gh/DataQA/jupyterannotate)
-
+![Build Status](https://github.com/dataqa/jupyter-annotate/actions/workflows/build.yml/badge.svg?branch=main)
 
 A Custom Jupyter Widget Library
 
@@ -17,6 +14,7 @@ pip install jupyterannotate
 
 If you are using Jupyter Notebook 5.2 or earlier, you may also need to enable
 the nbextension:
+
 ```bash
 jupyter nbextension enable --py [--sys-prefix|--user|--system] jupyterannotate
 ```
@@ -24,12 +22,14 @@ jupyter nbextension enable --py [--sys-prefix|--user|--system] jupyterannotate
 ## Development Installation
 
 Create a dev environment:
+
 ```bash
 conda create -n jupyterannotate-dev -c conda-forge nodejs yarn python jupyterlab
 conda activate jupyterannotate-dev
 ```
 
 Install the python. This will also build the TS package.
+
 ```bash
 pip install -e ".[test, examples]"
 ```
@@ -55,7 +55,9 @@ you might also need another flag instead of `--sys-prefix`, but we won't cover t
 of those flags here.
 
 ### How to see your changes
+
 #### Typescript:
+
 If you use JupyterLab to develop then you can watch the source directory and run JupyterLab at the same time in different
 terminals to watch for changes in the extension's source and automatically rebuild the widget.
 
@@ -69,4 +71,5 @@ jupyter lab
 After a change wait for the build to finish and then refresh your browser and the changes should take effect.
 
 #### Python:
+
 If you make a change to the python code then you will need to restart the notebook kernel to have it take effect.
