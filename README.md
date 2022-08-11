@@ -2,7 +2,9 @@
 
 ![Build Status](https://github.com/dataqa/jupyter-annotate/actions/workflows/build.yml/badge.svg?branch=main)
 
-A Custom Jupyter Widget Library
+Inline Text Annotation for Jupyter Notebook/Lab
+
+![Jupyter Annotate](examples/images/Annotate_1.png?raw=true "Jupyter Annotate")
 
 ## Installation
 
@@ -17,6 +19,43 @@ the nbextension:
 
 ```bash
 jupyter nbextension enable --py [--sys-prefix|--user|--system] jupyterannotate
+```
+
+## Usage
+
+Within an Jupyter Notebook cell:
+
+```
+# Define some labels
+LABELS = ["Organization", "Product", "Person", "Country", "Date", "Quantity"]
+
+# Define some documents
+DOCUMENTS = [
+    "Oracle introduced a...",
+    "Microsoft will delay the ...",
+]
+
+# Instantiate widget
+annotation_widget = jupyterannotate.AnnotateWidget(
+    docs=NEWS_HEADLINES,
+    labels=LABELS
+)
+
+# Render
+annotation_widget
+```
+
+![Apply Label](examples/images/Annotate_1.gif?raw=true "Apply Label")
+
+- Choose label
+- Select text within displayed document
+- Click on existing span to remove
+- Navigate documents using top-right
+
+```
+# Access spans - a List containing a List of Spans per document
+# e.g. [[{'start': 0, 'end': 6, 'text': 'Oracle', 'label': 'Organization'}], []]
+annotation_widget.spans
 ```
 
 ## Development Installation
