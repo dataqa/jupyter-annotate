@@ -2,7 +2,7 @@
 
 ![Build Status](https://github.com/dataqa/jupyter-annotate/actions/workflows/build.yml/badge.svg?branch=main)
 
-Inline Text Annotation for Jupyter Notebook/Lab
+Interactive Text Annotation for Jupyter Notebook/Lab
 
 ![Jupyter Annotate](examples/images/Annotate_1.png?raw=true "Jupyter Annotate")
 
@@ -23,6 +23,8 @@ jupyter nbextension enable --py [--sys-prefix|--user|--system] jupyterannotate
 
 ## Usage
 
+See [Example](examples/introduction.ipynb)
+
 Within an Jupyter Notebook cell:
 
 ```
@@ -36,9 +38,16 @@ DOCUMENTS = [
 ]
 
 # Instantiate widget
+# Optionally specify a list of spans to prepopulate
 annotation_widget = jupyterannotate.AnnotateWidget(
     docs=NEWS_HEADLINES,
-    labels=LABELS
+    labels=LABELS,
+    spans=[
+      [
+        {'start': 0, 'end': 6, 'text': 'Oracle', 'label': 'Organization'},
+      ],
+      []
+    ]
 )
 
 # Render
@@ -56,7 +65,19 @@ annotation_widget
 # Access spans - a List containing a List of Spans per document
 # e.g. [[{'start': 0, 'end': 6, 'text': 'Oracle', 'label': 'Organization'}], []]
 annotation_widget.spans
+
+
+# See updates in real-time
+annotation_widget.spans = [
+    [
+        {'start': 0, 'end': 6, 'text': 'Oracle', 'label': 'Organization'},
+        {'start': 69, 'end': 72, 'text': '10g', 'label': 'Quantity'}
+    ],
+    []
+]
 ```
+
+![Update Python](examples/images/Annotate_2.gif?raw=true "Update Python")
 
 ## Development Installation
 
