@@ -9,3 +9,10 @@ export interface Span {
   text: string;
   label: ColorLabel;
 }
+
+export interface PythonSpan {
+  start: number;
+  end: number;
+  text: string;
+  label: string;
+}

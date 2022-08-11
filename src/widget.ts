@@ -11,10 +11,11 @@ import {
 import { h, render } from "preact";
 
 import { MODULE_NAME, MODULE_VERSION } from "./version";
-import { Span } from "./annotate";
+import { Span, PythonSpan, ColorLabel } from "./annotate";
 import Annotate from "./components/Annotate";
 // Import the CSS
 import "../css/widget.css";
+import { HIGHLIGHT_COLORS } from "./components/colors";
 
 export class AnnotateModel extends DOMWidgetModel {
   static serializers: ISerializers = {
@@ -30,11 +31,32 @@ export class AnnotateModel extends DOMWidgetModel {
   static view_module_version = MODULE_VERSION;
 }
 
+const getSpansFromPyton = (
+  pythonSpans: PythonSpan[][],
+  labels: ColorLabel[]
+): Span[][] => {
+  return pythonSpans.map((spans: PythonSpan[]) => {
+    return spans.map((span) => {
+      const label = labels.find((l) => l.text === span.label) || labels[0];
+      return {
+        ...span,
+        label,
+      };
+    });
+  });
+};
+
 export class AnnotateView extends DOMWidgetView {
   render(): void {
     const docs = this.model.get("docs") || [];
-    const labels = this.model.get("labels");
-    const initialSpans = this.model.get("spans") || [];
+    const labels: string[] = this.model.get("labels");
+    const initialSpans: PythonSpan[][] = this.model.get("spans") || [];
+
+    const colors = Object.keys(HIGHLIGHT_COLORS);
+    const colorLabels = labels.map((text, index) => ({
+      text,
+      color: colors[index % colors.length],
+    }));
 
     const registerSpanChangeCallback = (
       callback: (spans: Span[][]) => void
@@ -43,7 +65,7 @@ export class AnnotateView extends DOMWidgetView {
         "change:spans",
         (model: WidgetModel) => {
           if (callback) {
-            callback(model.changed.spans);
+            callback(getSpansFromPyton(model.changed.spans, colorLabels));
           }
         },
         this
@@ -56,8 +78,8 @@ export class AnnotateView extends DOMWidgetView {
       h(Annotate, {
         docs,
         registerSpanChangeCallback,
-        labels,
-        initialSpans,
+        labels: colorLabels,
+        initialSpans: getSpansFromPyton(initialSpans, colorLabels),
         onUpdateSpans: (spans: Span[][]) => this.handleChange(spans),
       })
     );
@@ -66,7 +88,13 @@ export class AnnotateView extends DOMWidgetView {
   }
 
   handleChange(spans: Span[][]): void {
-    this.model.set("spans", spans);
+    const pythonSpans: PythonSpan[][] = spans.map((s: Span[]) => {
+      return s.map((span) => ({
+        ...span,
+        label: span.label.text,
+      }));
+    });
+    this.model.set("spans", pythonSpans);
     this.model.save_changes();
   }
 }

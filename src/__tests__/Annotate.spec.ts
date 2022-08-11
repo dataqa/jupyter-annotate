@@ -6,7 +6,7 @@ import Annotate from "../components/Annotate";
 import { Span } from "../annotate";
 
 const RANGE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const LABELS = RANGE.map(() => faker.random.word());
+const LABELS = RANGE.map(() => ({ text: faker.random.word(), color: "red" }));
 const DOCUMENTS = RANGE.map(() => faker.hacker.phrase());
 
 describe("Annotate", () => {
@@ -65,13 +65,13 @@ describe("Annotate", () => {
             start: 8,
             end: 12,
             text: targetText,
-            label: { color: "red", text: LABELS[0] },
+            label: LABELS[0],
           },
         ],
       ])
     );
 
-    const span = await findByTitle(LABELS[0]);
+    const span = await findByTitle(LABELS[0].text);
     expect(span.textContent).toEqual(targetText);
   });
 
@@ -103,12 +103,12 @@ describe("Annotate", () => {
           start: 8,
           end: 12,
           text: targetText,
-          label: { color: "red", text: LABELS[0] },
+          label: LABELS[0],
         },
       ],
     ]);
 
-    const span = await findByTitle(LABELS[0]);
+    const span = await findByTitle(LABELS[0].text);
     expect(span.textContent).toEqual(targetText);
   });
 });

@@ -1,14 +1,13 @@
 import { h, VNode } from "preact";
 import { useEffect, useMemo, useState } from "preact/hooks";
-import { ColorLabel, Span } from "../annotate";
 
+import { ColorLabel, Span } from "../annotate";
 import TopBar from "./TopBar";
 import Highlightable from "./Highlightable";
-import { HIGHLIGHT_COLORS } from "./colors";
 
 interface Props {
   docs: string[];
-  labels: string[];
+  labels: ColorLabel[];
   initialSpans: Span[][];
   onUpdateSpans: (span: Span[][]) => void;
   registerSpanChangeCallback: (callback: (span: Span[][]) => void) => void;
@@ -56,21 +55,12 @@ export default function Annotate({
   };
 
   const spans = docSpans[docIndex] || [];
-
-  const coloredLabels = useMemo(() => {
-    const colors = Object.keys(HIGHLIGHT_COLORS);
-    return labels.map((text, index) => ({
-      text,
-      color: colors[index % colors.length],
-    }));
-  }, [labels]);
-
-  const activeLabel = selectedLabel || coloredLabels[0];
+  const activeLabel = selectedLabel || labels[0];
 
   return h("div", null, [
     h(TopBar, {
       selectedLabel: activeLabel,
-      labels: coloredLabels,
+      labels,
       totalDocs,
       docIndex,
       onChangeLabel,
