@@ -1,10 +1,17 @@
-# jupyterannotate
+<img src="examples/images/logo.png?raw=true" height="200"/>
 
 ![Build Status](https://github.com/dataqa/jupyter-annotate/actions/workflows/build.yml/badge.svg?branch=main)
+
+---
 
 Interactive Text Annotation for Jupyter Notebook/Lab
 
 ![Jupyter Annotate](examples/images/Annotate_1.png?raw=true "Jupyter Annotate")
+
+* Perform entity extraction inline without leaving your notebook.
+* Iteratively label and train a model in the same environment.
+* Iterate over the label schema faster.
+* Quickly inspect the quality of pre-annotation tools such as skweak or spacy.
 
 ## Installation
 
