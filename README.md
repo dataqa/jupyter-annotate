@@ -2,6 +2,8 @@
 
 ![Build Status](https://github.com/dataqa/jupyter-annotate/actions/workflows/build.yml/badge.svg?branch=main)
 
+---
+
 Interactive Text Annotation for Jupyter Notebook/Lab
 
 ![Jupyter Annotate](examples/images/Annotate_1.png?raw=true "Jupyter Annotate")
