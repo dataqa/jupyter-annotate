@@ -1,4 +1,4 @@
-<img src="examples/images/logo.png?raw=true" height="80%"/>
+<img src="examples/images/logo.png?raw=true" height="200"/>
 
 ![Build Status](https://github.com/dataqa/jupyter-annotate/actions/workflows/build.yml/badge.svg?branch=main)
 
