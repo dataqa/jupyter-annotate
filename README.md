@@ -1,5 +1,3 @@
-# jupyterannotate
-
 ![Apply Label](examples/images/logo.png?raw=true "Apply Label")
 
 
