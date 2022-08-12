@@ -1,5 +1,8 @@
 # jupyterannotate
 
+![Apply Label](examples/images/logo.png?raw=true "Apply Label")
+
+
 ![Build Status](https://github.com/dataqa/jupyter-annotate/actions/workflows/build.yml/badge.svg?branch=main)
 
 Interactive Text Annotation for Jupyter Notebook/Lab
